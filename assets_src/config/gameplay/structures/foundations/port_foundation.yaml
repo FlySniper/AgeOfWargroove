@@ -13,7 +13,7 @@ unitClasses:
     damageMultiplier: 1.3
     battleUnitCount: 1
     hostileNeutral: false
-    garrisonUnit: ""
+    garrisonUnit: garrison
     movement: sea_building
     income: 0
     cost: 300

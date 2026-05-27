@@ -1,9 +1,9 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
-local AOW = require "age_of_wargroove/age_of_wargroove"
-local Upgrades = require "age_of_wargroove/upgrades"
+local AOW = require "zzz_age_of_wargroove/age_of_wargroove"
+local Upgrades = require "zzz_age_of_wargroove/upgrades"
 local Constants = require "constants"
-local AI = require "age_of_wargroove/ai"
+local AI = require "zzz_age_of_wargroove/ai"
 local Inspect = require "inspect"
 
 local UpgradeLand = Verb:new()

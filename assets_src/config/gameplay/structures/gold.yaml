@@ -11,7 +11,7 @@ unitClasses:
     canBeCaptured: false
     isNeutraliseable: true
     damageMultiplier: 0
-    hostileNeutral: true
+    hostileNeutral: false
     movement: land_building
     income: 0
     cost: 5000

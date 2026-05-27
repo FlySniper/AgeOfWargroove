@@ -2,17 +2,16 @@ local OriginalEvents = require "wargroove/events"
 local Wargroove = require("wargroove/wargroove")
 local TriggerContext = require("triggers/trigger_context")
 local Resumable = require("wargroove/resumable")
-local AOW = require("age_of_wargroove/age_of_wargroove")
-local Upgrades = require "age_of_wargroove/upgrades"
-local AI = require "age_of_wargroove/ai"
-local Leveling = require("age_of_wargroove/leveling")
+local AOW = require("zzz_age_of_wargroove/age_of_wargroove")
+local Upgrades = require "zzz_age_of_wargroove/upgrades"
+local AI = require "zzz_age_of_wargroove/ai"
 
 local Events = {}
 
 local triggerContext = TriggerContext:new({
     state = "",
     fired = {},
-    campaignFlags = {},    
+    campaignFlags = {},
     mapFlags = {},
     mapCounters = {},
     party = {},
@@ -127,7 +126,7 @@ function Events.addToConditionsList(conditions)
   table.insert(additionalConditions, conditions)
 end
 
-function Events.addTriggerToList(triggerToAdd)    
+function Events.addTriggerToList(triggerToAdd)
     local notFinished = true
     while notFinished do
         for i, trigger in ipairs(triggerList) do
@@ -169,7 +168,7 @@ end
 
 function Events.populateTriggerList()
     triggerList = Wargroove.getMapTriggers()
-    
+
     --AOW specific triggers
     local referenceTrigger = Events.getTrigger("$trigger_default_defeat_hq")
     Events.addTriggerToList(AOW.spawnGlobalStateSoldier())
@@ -188,8 +187,7 @@ function Events.populateTriggerList()
     Events.addTriggerToList(Upgrades.modifyUpgradeGroove(referenceTrigger))
     Events.addTriggerToList(Upgrades.modifyUpgradeIndicators(referenceTrigger))
     Events.addTriggerToList(Upgrades.reportDeadUpgradeTrigger(referenceTrigger))
-    Events.addTriggerToList(Leveling.onLoadTrigger(referenceTrigger))
-    
+
     local Actions = require("triggers/actions")
     local Conditions = require("triggers/conditions")
 
@@ -213,7 +211,7 @@ function Events.doCheckEvents(state)
     for i, unit in ipairs(pendingDeadUnits) do
         if unit.triggeredBy ~= nil then
             table.insert(newPendingUnits, unit)
-        end 
+        end
     end
 
     pendingDeadUnits = newPendingUnits
@@ -224,7 +222,7 @@ function Events.doCheckEvents(state)
             if unit.triggeredBy == nil or unit.triggeredBy ~= triggerNum then
                 table.insert(newPendingUnits, unit)
             end
-        end        
+        end
 
         pendingDeadUnits = newPendingUnits
 
@@ -259,7 +257,7 @@ function Events.canExecuteTrigger(trigger)
     if trigger.recurring ~= 'start_of_match' then
         if triggerContext:checkState('startOfMatch') then
             return false
-        end        
+        end
     elseif not triggerContext:checkState('startOfMatch') then
         return false
     end
@@ -267,7 +265,7 @@ function Events.canExecuteTrigger(trigger)
     if trigger.recurring ~= 'end_of_match' then
         if triggerContext:checkState('endOfMatch') then
             return false
-        end        
+        end
     elseif not triggerContext:checkState('endOfMatch') then
         return false
     end

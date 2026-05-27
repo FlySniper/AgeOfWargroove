@@ -1,6 +1,6 @@
 local Verb = require "wargroove/verb"
 local Wargroove = require "wargroove/wargroove"
-local AI = require "age_of_wargroove/ai"
+local AI = require "zzz_age_of_wargroove/ai"
 
 local WaitVillager = Verb:new()
 

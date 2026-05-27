@@ -9,6 +9,7 @@ modifyingUnitClasses:
             - type.ground.villager
         cost: 75
         aiPriority: 2
+        moveRange: 4
     add:
         verbs:
             - build

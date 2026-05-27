@@ -1,7 +1,7 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
-local AOW = require "age_of_wargroove/age_of_wargroove"
-local AI = require "age_of_wargroove/ai"
+local AOW = require "zzz_age_of_wargroove/age_of_wargroove"
+local AI = require "zzz_age_of_wargroove/ai"
 local Constants = require "constants"
 
 local Mine = Verb:new()

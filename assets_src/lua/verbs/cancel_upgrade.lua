@@ -1,6 +1,6 @@
 local Wargroove = require "wargroove/wargroove"
 local Verb = require "wargroove/verb"
-local Upgrades = require "age_of_wargroove/upgrades"
+local Upgrades = require "zzz_age_of_wargroove/upgrades"
 
 
 local CancelUpgrade = Verb:new()

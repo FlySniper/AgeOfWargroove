@@ -1,7 +1,7 @@
 local Wargroove = require "wargroove/wargroove"
 local OriginalUnload = require "verbs/unload"
 local Constants = require "constants"
-local AOW = require "age_of_wargroove/age_of_wargroove"
+local AOW = require "zzz_age_of_wargroove/age_of_wargroove"
 
 local Unload = {}
 
@@ -44,7 +44,7 @@ function Unload:canExecuteWithTarget(unit, endPos, targetPos, strParam)
         if (loadedUnit.unitClassId == "gold" or loadedUnit.unitClassId == "gem") then
             return false
         end
-        
+
         if Wargroove.canStandAt(loadedUnit.unitClassId, targetPos) then
             return true
         end
@@ -52,23 +52,23 @@ function Unload:canExecuteWithTarget(unit, endPos, targetPos, strParam)
         return false
     end
 
-    local targets = OriginalUnload:parseStrParam(strParam)
+    local targets = Wargroove.stringToPositions(strParam)
     for unitId, target in pairs(targets) do
         local loadedUnit = Wargroove.getUnitById(unitId)
-        
+
         if (loadedUnit.unitClassId == "gold") then
             return false
         end
-        
+
         if not Wargroove.canStandAt(loadedUnit.unitClassId, target) then
             return false
         end
-    end    
+    end
     return true
 end
 
 function Unload:execute(unit, targetPos, strParam, path)
-    local targets = OriginalUnload:parseStrParam(strParam)
+    local targets = Wargroove.stringToPositions(strParam)
 
     for unitId, target in pairs(targets) do
         local transportedUnit = Wargroove.getUnitById(unitId)
@@ -95,7 +95,7 @@ function Unload:execute(unit, targetPos, strParam, path)
     end
 
     unit.loadedUnits = newLoadedUnits
-    
+
     if #unit.loadedUnits > 0 then
         local firstUnit = Wargroove.getUnitById(unit.loadedUnits[1])
         if firstUnit ~= nil and firstUnit.unitClassId == "gold" then

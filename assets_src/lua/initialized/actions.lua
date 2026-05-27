@@ -1,9 +1,8 @@
-local AOW = require "age_of_wargroove/age_of_wargroove"
-local Upgrades = require "age_of_wargroove/upgrades"
+local AOW = require "zzz_age_of_wargroove/age_of_wargroove"
+local Upgrades = require "zzz_age_of_wargroove/upgrades"
 local Events = require "initialized/events"
-local Leveling = require "age_of_wargroove/leveling"
 local Wargroove = require "wargroove/wargroove"
-local AI = require "age_of_wargroove/ai"
+local AI = require "zzz_age_of_wargroove/ai"
 local Constants = require "constants"
 local Utils = require "utils"
 
@@ -38,13 +37,13 @@ function Actions.populate(dst)
     dst["modify_upgrade_indicator"] = Actions.modifyUpgradeIndicators
     dst["redraw_unit_ranks"] = Actions.redrawUnitRanks
     dst["upgrade_death_cancel_upgrade"] = Actions.upgradeDeathCancelUpgrade
-    
+
     -- Editor
     dst["modify_experience"] = Actions.modifyExperience
     dst["modify_rank"] = Actions.modifyRank
 end
 
-function Actions.upgradeDeathCancelUpgrade(context) 
+function Actions.upgradeDeathCancelUpgrade(context)
     for i, u in ipairs(context.deadUnits) do
         if u.unitClassId == "blacksmith" then
             local upgrade = Upgrades.getWorkingUpgrade(u.playerId, u.id)
@@ -68,7 +67,7 @@ end
 
 function Actions.modifyUpgradeGroove(context)
     local playerId = context:getPlayerId(0)
-    
+
     local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
     for i, u in ipairs(allUnits) do
         if u.unitClassId == "blacksmith" or u.unitClassId == "enchanting_tower" or u.unitClassId == "harbor" or u.unitClassId == "monastery" then
@@ -148,7 +147,7 @@ function manageUpgradeStructure(u)
     local unitState = Wargroove.getUnitState(u, "upgradeEffect")
     if workingUpgrade ~= nil then
         if unitState == nil or unitState == "" then
-            local effectId = Wargroove.spawnUnitEffect(u.id, "units/fx/upgrade", "upgrade", "", true)
+            local effectId = Wargroove.spawnUnitEffect(u.id, u.id, "units/fx/upgrade", "upgrade", "", true, false)
             Wargroove.setUnitState(u, "upgradeEffect", effectId)
             Wargroove.updateUnit(u)
         end
@@ -188,7 +187,7 @@ function manageUpgradeStructure(u)
                 Wargroove.updateUnit(u)
             end
         end
-        
+
         if workingUpgrade == up and (not unitLoaded) then
             Wargroove.spawnUnit(-1, { x = -91, y = -12 }, up, true, "")
             Wargroove.waitFrame()
@@ -205,7 +204,7 @@ function manageUpgradeStructure(u)
 end
 function Actions.modifyUpgradeIndicators(context)
     local playerId = context:getPlayerId(0)
-    
+
     local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
     for i, u in ipairs(allUnits) do
         if u ~= nil and (u.unitClassId == "blacksmith" or u.unitClassId == "enchanting_tower" or u.unitClassId == "harbor" or u.unitClassId == "monastery") then
@@ -216,34 +215,34 @@ end
 
 function Actions.modifyCurrentPopulation(context)
     local playerId = context:getPlayerId(0)
-    
+
     local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
-    
+
     local popCap = AOW.getPopulationCap(playerId)
     local currentPop = AOW.getCurrentPopulation(playerId)
-    
+
     for i, u in ipairs(allUnits) do
-        
+
         if u.unitClassId == "hq" or u.unitClassId == "city" or u.unitClassId == "water_city" then
-        
+
             local warningEffectId = Wargroove.getUnitState(u, "warningEffect")
             if warningEffectId ~= nil and warningEffectId ~= "" and pop_animation_initalized[playerId + 1] then
                 Wargroove.deleteUnitEffect(warningEffectId, "")
                 Wargroove.setUnitState(u, "warningEffect", "")
                 Wargroove.updateUnit(u)
             end
-            
+
             -- draw indicator
             if popCap - currentPop < 4 and popCap - currentPop > 0 then
-                local effectId = Wargroove.spawnUnitEffect(u.id, "units/fx/warning", "warn", "", true)
+                local effectId = Wargroove.spawnUnitEffect(u.id, u.id, "units/fx/warning", "warn", "", true, false)
                 Wargroove.setUnitState(u, "warningEffect", effectId)
                 Wargroove.updateUnit(u)
             elseif popCap <= currentPop then
-                local effectId = Wargroove.spawnUnitEffect(u.id, "units/fx/warning", "critical", "", true)
+                local effectId = Wargroove.spawnUnitEffect(u.id, u.id, "units/fx/warning", "critical", "", true, false)
                 Wargroove.setUnitState(u, "warningEffect", effectId)
                 Wargroove.updateUnit(u)
             end
-            
+
             if #u.loadedUnits > 0 then
                 local popCapUnit = Wargroove.getUnitById(u.loadedUnits[1])
                 popCapUnit:setHealth(popCap, -1)
@@ -262,23 +261,23 @@ function Actions.modifyCurrentPopulation(context)
                 Wargroove.updateUnit(popCapUnit)
                 Wargroove.updateUnit(u)
             end
-                
+
         end
     end
     pop_animation_initalized[playerId + 1] = true
 end
 
 function Actions.modifyDimensionalDoorGroove(context)
-    
+
     local allUnits = Wargroove.getAllUnitsForPlayer(-2, true)
-    
+
     for i, u in ipairs(allUnits) do
-        
+
         if u.unitClassId == "dimensional_door" then
             if u.grooveCharge < 5 then
                 u.grooveCharge = u.grooveCharge + 1
                 Wargroove.updateUnit(u)
-            end 
+            end
         end
     end
 end
@@ -286,7 +285,7 @@ end
 
 function Actions.generateGoldPerTurnFromPosAction(context)
     local playerId = context:getPlayerId(0)
-    
+
     local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
     for i, u in ipairs(allUnits) do
         if u.unitClassId == "gold_camp" then
@@ -310,9 +309,9 @@ end
 
 function Actions.drawTechLevelEffect(context)
     local playerId = context:getPlayerId(0)
-    
+
     local techlevel = AOW.getTechLevel(playerId)
-    
+
     if techlevel > 1 then
         local effectToDraw = AOW.getTechLevelEffectName(techlevel)
         local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
@@ -323,7 +322,7 @@ function Actions.drawTechLevelEffect(context)
                     if tech_animation_initalized[playerId + 1] == true and previousLevel ~= nil then
                         Wargroove.deleteUnitEffect(Wargroove.getUnitState(u, "techEffect"), "")
                     end
-                    local effectId = Wargroove.spawnUnitEffect(u.id, "units/fx/tech_level", effectToDraw, "", true)
+                    local effectId = Wargroove.spawnUnitEffect(u.id, u.id, "units/fx/tech_level", effectToDraw, "", true, false)
                     Wargroove.setUnitState(u, "techEffectLevelDrawn", techlevel)
                     Wargroove.setUnitState(u, "techEffect", effectId)
                     Wargroove.updateUnit(u)
@@ -341,7 +340,7 @@ end
 function Actions.setTechLevel(context)
     local playerId = context:getPlayerId(0)
     local techlevel = context:getInteger(1)
-    
+
     AOW.setTechLevel(playerId, techlevel)
 end
 
@@ -350,14 +349,14 @@ function Actions.removeGenerateGoldPerTurnFromPos(context)
     for i, unit in ipairs(context.deadUnits) do
         if unit.unitClassId == "gold_camp" then
             local pos = { x = unit.pos.x, y = unit.pos.y }
-            
+
             local goldUnit = Wargroove.getUnitAt(pos)
-            
+
             if goldUnit ~= nil then
                 AOW.removeGoldGenerationFromPos(pos)
-                
+
                 local goldUnit = Wargroove.getUnitAt(pos)
-                
+
                 local goldHp
                 if goldUnit.unitClassId == "gold" then
                     goldHp = AOW.getGoldCount(pos) / Constants.goldPerTurnPerMine * 2
@@ -365,7 +364,6 @@ function Actions.removeGenerateGoldPerTurnFromPos(context)
                     goldHp = AOW.getGoldCount(pos) / Constants.gemPerTurnPerMine * 4
                 end
                 goldUnit:setHealth(goldHp, -1)
-                goldUnit.playerId = -2
                 Wargroove.updateUnit(goldUnit)
             end
         end
@@ -381,7 +379,7 @@ function Actions.drawMiningCampIndicator(context)
             local goldUnit = Wargroove.getUnitById(goldCamp.loadedUnits[1])
             if (goldUnit.unitClassId == "gem" or goldUnit.unitClassId == "gold") then
                 if (goldUnit.health > 0 and goldUnit.health < 20 and Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == nil) or gold_animation_initialized == false then
-                    local effectId = Wargroove.spawnUnitEffect(goldCamp.id, "units/fx/warning", "warn", "", true)
+                    local effectId = Wargroove.spawnUnitEffect(goldCamp.id, goldCamp.id, "units/fx/warning", "warn", "", true, false)
                     Wargroove.setUnitState(goldCamp, "lowGoldEffect", effectId)
                     Wargroove.setUnitState(goldCamp, "lowGoldEffectDrawn", "warn")
                     Wargroove.updateUnit(goldCamp)
@@ -390,9 +388,9 @@ function Actions.drawMiningCampIndicator(context)
                 if gold_animation_initialized and Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == "warn" then
                     Wargroove.deleteUnitEffect(Wargroove.getUnitState(goldCamp, "lowGoldEffect"), "")
                 end
-                
+
                 if gold_animation_initialized == false or Wargroove.getUnitState(goldCamp, "lowGoldEffectDrawn") == "warn" then
-                    Wargroove.spawnUnitEffect(goldCamp.id, "units/fx/warning", "critical", "", true)
+                    Wargroove.spawnUnitEffect(goldCamp.id, goldCamp.id, "units/fx/warning", "critical", "", true, false)
                     Wargroove.setUnitState(goldCamp, "lowGoldEffect", effectId)
                     Wargroove.setUnitState(goldCamp, "lowGoldEffectDrawn", "critical")
                     Wargroove.updateUnit(goldCamp)
@@ -400,11 +398,11 @@ function Actions.drawMiningCampIndicator(context)
             end
         else
             if gold_animation_initialized == false then
-                Wargroove.spawnUnitEffect(goldCamp.id, "units/fx/warning", "critical", "", true)
+                Wargroove.spawnUnitEffect(goldCamp.id, goldCamp.id, "units/fx/warning", "critical", "", true, false)
                 Wargroove.setUnitState(goldCamp, "lowGoldEffect", effectId)
                 Wargroove.setUnitState(goldCamp, "lowGoldEffectDrawn", "critical")
                 Wargroove.updateUnit(goldCamp)
-            end        
+            end
         end
     end
     gold_animation_initialized = true
@@ -418,69 +416,44 @@ function Actions.modifyGoldAtPos(context)
     local pos = { x = posX, y = posY }
     local remainingGold = operation(AOW.getGoldCount(pos), gold)
     AOW.setGoldCount(pos, remainingGold)
-    
-    
+
+
     local goldCamp = Wargroove.getUnitAt(pos)
     local goldUnit = Wargroove.getUnitById(goldCamp.loadedUnits[1])
-    
+
     local goldHp
     if goldUnit.unitClassId == "gold" then
         goldHp = remainingGold / Constants.goldPerTurnPerMine * 2
     elseif goldUnit.unitClassId == "gem" then
         goldHp = remainingGold / Constants.gemPerTurnPerMine * 4
     end
-    
-    
+
+
     goldUnit:setHealth(goldHp, -1)
     Wargroove.updateUnit(goldUnit)
-    
+
     if goldUnit.health <= 0 then
         table.remove(goldCamp.loadedUnits, 1)
         Wargroove.updateUnit(goldCamp)
         AOW.removeGoldGenerationFromPos(pos)
     end
-    
+
 end
 
 function Actions.redrawUnitRanks(context)
-    local units = context:gatherUnits(2, 0, 1)
-    
-    for i, unit in ipairs(units) do
-        Leveling.redraw(unit)
-    end
-    
+
     coroutine.yield()
 end
 
 -- Editor actions
 function Actions.modifyExperience(context)
     -- "Modify Experience of {0} at {1} for {2}: {3} to {4} {5}"
-    local operation = context:getOperation(3)
-    local value = context:getInteger(4)
-    local units = context:gatherUnits(2, 0, 1)
-    local silent = context:getBoolean(5)
-
-    for i, unit in ipairs(units) do
-        local oldValue = Leveling.getExperience(unit) or 0
-        local newValue = operation(tonumber(oldValue), value)
-        Leveling.setExperience(unit, newValue, silent)
-    end
-
     coroutine.yield()
 end
 
 function Actions.modifyRank(context)
     -- "Modify Rank of {0} at {1} for {2}: {3} to {4} {5}"
-    local operation = context:getOperation(3)
-    local value = context:getInteger(4)
-    local units = context:gatherUnits(2, 0, 1)
-    local silent = context:getBoolean(5)
 
-    for i, unit in ipairs(units) do
-        local oldValue = Leveling.getRank(unit) or 0
-        local newValue = operation(tonumber(oldValue), value)
-        Leveling.setRank(unit, newValue, silent)
-    end
 
     coroutine.yield()
 end

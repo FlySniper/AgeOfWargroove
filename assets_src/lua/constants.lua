@@ -1,7 +1,7 @@
 local Constants = {}
 
-Constants.goldPerTurnPerMine = 80
-Constants.gemPerTurnPerMine = 120
+Constants.goldPerTurnPerMine = 240
+Constants.gemPerTurnPerMine = 360
 Constants.globalStateUnitPos = { x = -43, y = -57 }
 Constants.populationPerVillage = 4
 Constants.populationPerHQ = 8
@@ -31,9 +31,9 @@ Constants.buildData = {
     warship = {2, "warship"},
     wagon = {2, "wagon"},
     turtle = {2, "turtle"},
-    trebuchet = {2, "trebuchet"},
-    travelboat = {2, "travelboat"},
-    spearman = {2, "spearman"},
+    trebuchet = {3, "trebuchet"},
+    travelboat = {1, "travelboat"},
+    spearman = {1, "spearman"},
     soldier = {1, "soldier"},
     merman = {2, "merman"},
     mage = {2, "mage"},
@@ -45,14 +45,18 @@ Constants.buildData = {
     dog = {1, "dog"},
     balloon = {2, "balloon"},
     ballista = {2, "ballista"},
-    archer = {2, "archer"},
+    archer = { 2, "archer" },
+    kraken = { 2, "kraken" },
+    frog = { 2, "frog" },
+    griffin_walking = { 1, "griffin_walking" },
+    caravel = {1, "caravel"},
 }
 
 Constants.allLandUpgrades = {
 "archer_upgrade",
 "knight_upgrade",
 "ballista_upgrade",
-"trebuchet_upgrade", 
+"trebuchet_upgrade",
 "giant_upgrade"
 }
 

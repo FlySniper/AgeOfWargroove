@@ -16,7 +16,7 @@ unitClasses:
     garrisonUnit: ""
     movement: land_building
     income: 0
-    loadCapacity: 4
+    loadCapacity: 2
     cost: 100
     tags:
       - structure
