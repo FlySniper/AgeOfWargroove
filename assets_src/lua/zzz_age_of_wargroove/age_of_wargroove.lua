@@ -223,7 +223,7 @@ function AgeOfWargroove.getCurrentPopulation(playerId)
     local currentPop = 0
     local allUnits = Wargroove.getAllUnitsForPlayer(playerId, true)
     for i, u in ipairs(allUnits) do
-        if u.unitClass.isStructure == false and u.unitClassId ~= "crystal" and u.unitClassId ~= "drone" and u.unitClassId ~= "vine" then
+        if u.unitClass.isStructure == false and u.unitClassId ~= "crystal" and u.unitClassId ~= "crystal_tier_two" and u.unitClassId ~= "drone" and u.unitClassId ~= "drone_strong" and u.unitClassId ~= "vine" and u.unitClassId ~= "weak_vine" and u.unitClassId ~= "smoke_producer" and u.unitClassId ~= "burn" then
             currentPop = currentPop + AgeOfWargroove.getPopulationSizeForUnit(u.unitClassId)
         end
     end
@@ -246,8 +246,8 @@ function AgeOfWargroove.getPopulationCap(playerId)
 end
 
 function AgeOfWargroove.modifyDefeatHQTrigger(trigger)
-    trigger.conditions = {}
-    table.insert(trigger.conditions, { id = "unit_presence", parameters = { "current", "0", "0", "hq", "-1" }, enabled = true  })
+    --trigger.conditions = {}
+    --table.insert(trigger.conditions, { id = "unit_presence", parameters = { "current", "0", "0", "hq", "-1" }, enabled = true  })
     return trigger
 end
 

@@ -119,7 +119,7 @@ function AI.buildVillagerOrders(unitId, canMove)
         return orders
     end
 
-    if AIGlobals[unit.playerId].villagers >= 21 or (not canMove) then
+    if AIGlobals[unit.playerId].villagers >= (#(AIGlobals[unit.playerId].goldPos)) + 4 or (not canMove) then
         return orders
     end
 
@@ -135,7 +135,7 @@ function AI.buildVillagerOrders(unitId, canMove)
 end
 
 function AI.buildVillagerScore(unitId, order)
-    return { score = 50, healthDelta = 0, introspection = {}}
+    return { score = 50 + Wargroove.getAIUnitRecruitScore(order.strParam, order.targetPosition), healthDelta = 0, introspection = {}}
 end
 
 function AI.buildUnitOrders(unitId, canMove, classToRecruit)
@@ -167,7 +167,8 @@ end
 
 function AI.buildUnitScore(unitId, order)
     print(inspect(order))
-    return { score = 25, healthDelta = 0, introspection = {}}
+    print("Recruit Score: " .. tostring(Wargroove.getAIUnitRecruitScore(order.strParam, order.targetPosition)))
+    return { score = Wargroove.getAIUnitRecruitScore(order.strParam, order.targetPosition), healthDelta = 0, introspection = {}}
 end
 
 function AI.placeVillagerInMineOrders(unitId, canMove)
@@ -238,8 +239,8 @@ function AI.placeMineOrders(unitId, canMove)
 end
 
 function AI.placeMineScore(unitId, order)
-    local score = 45
     local unit = Wargroove.getUnitById(unitId)
+    local score = Wargroove.getAILocationScore(unit.unitClassId, order.targetPosition) * 25 + 40
     if AIGlobals[unit.playerId].goldCamps == 0 then
         score = 100
     end
@@ -251,7 +252,7 @@ function AI.techUpOrders(unitId, canMove, cost)
     local unitClass = Wargroove.getUnitClass(unit.unitClassId)
     local money = Wargroove.getMoney(unit.playerId)
     local techLevel = AOW.getTechLevel(unit.playerId)
-    if money < cost or techLevel >= 3 then
+    if money < cost * 2 or techLevel >= 3 then
         return {}
     end
     return {{targetPosition = unit.pos, strParam = "", movePosition = unit.pos, endPosition = unit.pos}}
@@ -263,7 +264,7 @@ function AI.techUpScore(unitId, order)
     local techLevel = AOW.getTechLevel(unit.playerId)
     local score = -1
 
-    if AIGlobals[unit.playerId].goldCamps > 0 and AIGlobals[unit.playerId].villagers >= 6 and AIGlobals[unit.playerId].barracks + 1 > techLevel then
+    if AIGlobals[unit.playerId].goldCamps > techLevel + 2 and AIGlobals[unit.playerId].villagers >= 6 and AIGlobals[unit.playerId].barracks + 1 > techLevel then
         score = 75
     end
     return { score = score, healthDelta = 0, introspection = {}}
@@ -314,16 +315,16 @@ function AI.placeStructureScore(unitId, order)
     local unitsInRange = Wargroove.getTargetsInRange(endPos, 2, "unit")
     local score = -1
     local popDiff = AOW.getPopulationCap(unit.playerId) - AOW.getCurrentPopulation(unit.playerId)
-    if (order.strParam == "city_foundation" or order.strParam == "water_city_foundation") and popDiff <= 2 then
+    if (order.strParam == "city_foundation" or order.strParam == "water_city_foundation") and popDiff <= 4 then
         score = 80
     else
         score = 1
     end
-    if order.strParam == "hq_foundation" and popDiff <= 2 then
-        score = 68 + AOW.getPopulationCap(unit.playerId)
+    if order.strParam == "hq_foundation" and popDiff >= 5 then
+        score = -25 + AOW.getPopulationCap(unit.playerId)
     end
     if order.strParam == "barracks_foundation" then
-        score = 10 * AIGlobals[unit.playerId].villagers - AIGlobals[unit.playerId].barracks * 35
+        score = 5 + 10 * AIGlobals[unit.playerId].goldCamps - AIGlobals[unit.playerId].barracks * 15
     end
     if order.strParam == "tower_foundation" then
         score = 15
@@ -331,20 +332,21 @@ function AI.placeStructureScore(unitId, order)
     if order.strParam == "port_foundation" then
         score = 15
     end
-    for i,targetPos in ipairs(unitsInRange) do
+    for i, targetPos in ipairs(unitsInRange) do
         local u = Wargroove.getUnitAt(targetPos)
         if u ~= nil then
             if ((u.unitClass.id == "hq_foundation" and Wargroove.areAllies(u.playerId, unit.playerId)) or (u.unitClass.id == "hq" and Wargroove.areAllies(u.playerId, unit.playerId)) or u.unitClass.id == "gold" or u.unitClass.id == "gem" or u.unitClass.id == "gold_camp") and order.strParam ~= "gold_camp" then
                 score = score - 75
             end
-            if u.unitClass.id == "city_foundation" or u.unitClass.id == "city" then
-                score = score - 3
+            if u.unitClass.id == "city_foundation" or u.unitClass.id == "city" or u.unitClass.id == "water_city_foundation" or u.unitClass.id == "water_city" then
+                score = score - 2
             end
-            if u.unitClass.id == "barracks_foundation" or u.unitClass.id == "tower_foundation" or u.unitClass.id == "barracks" or u.unitClass.id == "tower" then
-                score = score - 5
+            if u.unitClass.id == "barracks_foundation" or u.unitClass.id == "tower_foundation" or u.unitClass.id == "barracks" or u.unitClass.id == "tower" or u.unitClass.id == "port_foundation" or u.unitClass.id == "port" then
+                score = score - 1
             end
         end
     end
+    score = score + (2 * Wargroove.getAILocationScore(unit.unitClassId, order.targetPosition))
     return { score = score, healthDelta = 0, introspection = {}}
 end
 
@@ -429,6 +431,7 @@ function AI.waitVillagerScore(unitId, order)
         end
     end
     score = score / 3
+    score = score + Wargroove.getAILocationScore(unit.unitClassId, order.targetPosition)
     return { score = score, healthDelta = 0, introspection = {}}
 end
 
@@ -529,7 +532,9 @@ function AI.buildTwoOrders(unitId, canMove)
 end
 
 function AI.buildTwoScore(unitId, order)
-    return { score = 85, healthDelta = 0, introspection = {}}
+    local unit = Wargroove.getUnitById(unitId)
+    local score = 85 + Wargroove.getAILocationScore(unit.unitClassId, order.targetPosition)
+    return { score = score, healthDelta = 0, introspection = {}}
 end
 
 function AI.trainOrders(unitId, canMove)
@@ -552,7 +557,9 @@ function AI.trainOrders(unitId, canMove)
 end
 
 function AI.trainScore(unitId, order)
-    return { score = 40, healthDelta = 0, introspection = {}}
+    local unit = Wargroove.getUnitById(unitId)
+    local score = 40 + Wargroove.getAILocationScore(unit.unitClassId, order.targetPosition)
+    return { score = score, healthDelta = 0, introspection = {}}
 end
 
 return AI

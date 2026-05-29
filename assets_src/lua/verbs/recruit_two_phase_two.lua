@@ -68,7 +68,7 @@ function RecruitTwoPhaseTwo:execute(unit, targetPos, strParam, path)
         unit:setGroove(0)
     else
         Wargroove.setUnitState(unit, "turnsBuilding", turnsSpendRecuriting + 1)
-        local groove = unit.groove + math.floor(100 / AOW.getTurnRequirement(targetUnit.unitClassId))
+        local groove = unit.grooveCharge + math.floor(100 / AOW.getTurnRequirement(targetUnit.unitClassId))
         unit:setGroove(groove)
     end
 end

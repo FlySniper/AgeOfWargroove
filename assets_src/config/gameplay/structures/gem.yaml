@@ -14,7 +14,7 @@ unitClasses:
     hostileNeutral: false
     movement: land_building
     income: 0
-    cost: 5000
+    cost: 2000
     tags:
       - structure
       

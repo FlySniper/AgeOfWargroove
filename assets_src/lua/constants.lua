@@ -1,7 +1,7 @@
 local Constants = {}
 
-Constants.goldPerTurnPerMine = 240
-Constants.gemPerTurnPerMine = 360
+Constants.goldPerTurnPerMine = 180
+Constants.gemPerTurnPerMine = 270
 Constants.globalStateUnitPos = { x = -43, y = -57 }
 Constants.populationPerVillage = 4
 Constants.populationPerHQ = 8
