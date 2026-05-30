@@ -190,7 +190,7 @@ end
 local LevelOneRecruits = {"soldier", "dog", "spearman", "travelboat", "villager", "merman", "barracks_foundation", "city_foundation", "port_foundation", "water_city_foundation", "gold_camp", "griffin_walking", "caravel"}
 local LevelTwoRecruits = {"priest", "soldier", "dog", "spearman", "wagon", "archer", "mage", "knight", "turtle", "harpoonship", "balloon", "harpy", "travelboat", "villager", "merman", "barracks_foundation", "city_foundation", "port_foundation", "water_city_foundation", "hq_foundation", "tower_foundation", "gold_camp", "frog", "griffin_walking", "caravel"}
 local LevelThreeRecruits = {"priest", "soldier", "dog", "spearman", "wagon", "archer", "mage", "knight", "trebuchet", "ballista", "giant", "turtle", "harpoonship", "warship", "balloon", "harpy", "witch", "dragon", "travelboat", "villager", "merman", "barracks_foundation", "city_foundation", "port_foundation", "water_city_foundation", "hq_foundation", "tower_foundation", "gold_camp", "frog", "kraken", "griffin_walking", "caravel"}
-local TechLevelCost = { 500, 1000, -1 }
+local TechLevelCost = { 1000, 2000, -1 }
 local TechEffect = { "techLevel2", "techLevel3" }
 
 function AgeOfWargroove.getTechLevelEffectName(techLevel)
@@ -258,7 +258,7 @@ function AgeOfWargroove.getReportDeadMineCampTrigger()
     trigger.enabled = true
     trigger.recurring = "repeat"
     trigger.players = {}
-    for i = 1, Wargroove.getNumPlayers(false) - 1, 1 do
+    for i = 1, Wargroove.getNumPlayers(false), 1 do
         table.insert(trigger.players, 1)
     end
     trigger.conditions = {}
@@ -373,7 +373,8 @@ function AgeOfWargroove.generateGoldPerTurnFromPos(targetPos, playerId, goldPerT
 end
 
 function AgeOfWargroove.removeGoldGenerationFromPos(targetPos)
-    local triggerId =  tostring(targetPos.x) .. "-" .. tostring(targetPos.y) .. "generateGold"
+    local triggerId = tostring(targetPos.x) .. "-" .. tostring(targetPos.y) .. "generateGold"
+    print("Removing trigger " .. triggerId)
     Events.removeTriggerFromList(triggerId)
 end
 

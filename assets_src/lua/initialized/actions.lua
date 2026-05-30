@@ -346,6 +346,7 @@ end
 
 function Actions.removeGenerateGoldPerTurnFromPos(context)
 
+    print("Remove Generate Gold Per Turn from Pos")
     for i, unit in ipairs(context.deadUnits) do
         if unit.unitClassId == "gold_camp" then
             local pos = { x = unit.pos.x, y = unit.pos.y }

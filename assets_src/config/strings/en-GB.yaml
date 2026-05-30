@@ -18,7 +18,7 @@ en-GB:
     ui_unit_verbs_cancel_upgrade: Cancel Upgrade
     ui_unit_verbs_upgrade_land: Upgrade
     groove_name_dimensional_door: Dimensional Door
-    groove_description_dimensional_door: A relic from the anicent. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
+    groove_description_dimensional_door: A relic from the ancient. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
     groove_name_indicate_population: Population
     groove_description_indicate_population: The Current Population
     groove_name_indicate_progress: Progress
@@ -54,9 +54,9 @@ en-GB:
     unit_description_water_city_foundation: Foundation for a water village. Use a villager to complete building it.
     unit_description_tower: Used to recruit new air units
     unit_description_tower_foundation: Foundation for a tower. Use a villager to complete building it.
-    unit_description_gold: Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
-    unit_description_gem: Rare Vaulable resources. Can be mined by constructing a mining camp on top of it and staff it with villagers
-    unit_description_gold_camp: Mining camp for gold. Garrison with villagers to start mining 50 gold per villager per turn
+    unit_description_gold: Valuable resources. Can be mined by constructing a mining camp on top of it and staff it with a villager
+    unit_description_gem: Rare Valuable resources. Can be mined by constructing a mining camp on top of it and staff it with a villager
+    unit_description_gold_camp: Mining camp for gold. Garrison with a villager to start mining 180 gold per turn
     unit_description_shop: Shop selling 5 random artifacts. restocks every 5 turns.
     unit_description_blacksmith: Upgrades tier 2 and tier 3 land units
     unit_description_short_sword: Well forged short sword. Increases the wielder's overall damage by 4%
@@ -64,13 +64,13 @@ en-GB:
     unit_description_axe: A double bladed battle axe. Increases the wielder's maximal damage by 5%
     unit_description_dagger: Small and nimble dagger. Increases the wielder's minimal damage by 5%
     unit_description_shield: Small shield made of pure metal. Lower incoming damage by 4%
-    unit_description_rare_shield: Shield inbused with essense of Life. Lower incoming damage by 4%, min and max damage by 5%
+    unit_description_rare_shield: Shield infused with essence of Life. Lower incoming damage by 4%, min and max damage by 5%
     unit_description_armor: Full body plated armor. Lower incoming minimal damage by 5%
     unit_description_helmet: Great helm covering the entire head. Lower incoming maximal damage by 5%
     unit_description_health_pot: Filled with weird red goo, increases hp by 25. Cannot be used after moving, does not consume turn.
     unit_description_groove_pot: Filled with weird blue goo, increases groove by 25. Cannot be used after moving, does not consume turn.
     unit_description_bow: A bow used by skilled hunter. Allows the wielder to use ranged attack at half the damage
-    unit_description_dimensional_door: A relic from the anicent. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
+    unit_description_dimensional_door: A relic from the ancient. Allows the wielder to teleport to a tile beside HQ. 5 turn cooldown
     
     trigger_action_name_modify_experience: "Unit: Modify Experience"
     trigger_action_description_modify_experience: "Modifies selected units' experience by adding to it, subtracting from it or setting it to a specific value."
@@ -100,7 +100,7 @@ en-GB:
 
     codex_rules_tech: Tech
     codex_rules_tech_title: Increasing Tech Level
-    codex_rules_tech_text: "> Each player starts at tech level 1.\n> You can upgrade your tech level at your Stronghold with enough gold.\n> The amount of gold it takes to upgrade your tech level increases with each level. The first level costs 500 gold, with an additional 500 gold added for each level after that.\n> The units you can recruit and the buildings your villagers can build are decided by your current tech level.\n> At tech level 1 you can build:\n- Barracks\n- Villages\n- Water Villages\n- Ports\n- Gold and Gem Mines\n> In addition, you can recruit:\n- Villagers\n- Soldiers\n- Dogs\n- Spearmen\n- Barges\n- Mermen\n> At tech level 2 gain the ability to build:\n- Walls\n- Strongholds\n- Towers\n> In addition, you can recruit:\n- Wagons\n- Archers\n- Mages\n- Knights\n- Turtles\n- Harpoonships\n- Balloons\n- Harpies\n> At tech level 3 (MAX) you gain the ability to recuit:\n- Trebuchets\n- Ballistas\n- Giants\n- Witches\n- Dragons"
+    codex_rules_tech_text: "> Each player starts at tech level 1.\n> You can upgrade your tech level at your Stronghold with enough gold.\n> The amount of gold it takes to upgrade your tech level increases with each level. The first level costs 1000 gold, with an additional 1000 gold added for each level after that.\n> The units you can recruit and the buildings your villagers can build are decided by your current tech level.\n> At tech level 1 you can build:\n- Barracks\n- Villages\n- Water Villages\n- Ports\n- Gold and Gem Mines\n> In addition, you can recruit:\n- Villagers\n- Soldiers\n- Dogs\n- Spearmen\n- Barges\n- Mermen\n> At tech level 2 gain the ability to build:\n- Walls\n- Strongholds\n- Towers\n> In addition, you can recruit:\n- Wagons\n- Archers\n- Mages\n- Knights\n- Turtles\n- Harpoonships\n- Balloons\n- Harpies\n> At tech level 3 (MAX) you gain the ability to recuit:\n- Trebuchets\n- Ballistas\n- Giants\n- Witches\n- Dragons"
 
     codex_rules_building: Building
     codex_rules_building_title: Building Structures
@@ -127,9 +127,9 @@ en-GB:
     codex_rules_repair_text: "> Villagers can repair structures to improve their sustainability.\n> Repairing restores up to 20% health.\n> The cost of repairing is 10% of the building's original cost.\n> Because structures no longer regenerate health each turn, repairing is the only way for structures to regain health."
 
     #These override existing rules pages to reflect changes in structures
-    codex_rules_income_text: "> Gold Mines and Gem Mines provide an income based on the number of villagers in each mine.\n> Gold mines are worth 80 gold per villager per turn.\n> Gem Mines are worth 120 gold per villager per turn.\n> Each mine can only hold 3 villagers at a time.\n> If a mine is destroyed, all mining villagers die.\n> Starting funds are set on a map-by-map basis."
+    codex_rules_income_text: "> Gold Mines and Gem Mines provide an income based on the number of villagers in each mine.\n> Gold mines are worth 180 gold per villager per turn.\n> Gem Mines are worth 270 gold per villager per turn.\n> Each mine can only hold 1 villager at a time.\n> If a mine is destroyed, all mining villagers die.\n> Starting funds are set on a map-by-map basis."
     codex_rules_capture_text: "> Neutral structures can be captured by any unit with the 'capture' attribute.\n> A captured structure begins with half the health of the unit that captured it.\n> Occupied structures are destroyed and removed from the map when defeated.\n> Military structures will counter-attack when possible.\n> Structures don't regenerate like Commanders do.\n> Structures have a range of functions. Refer to the structure description for more information."
-    codex_rules_strongholds_text: "> Strongholds take half damage from all units.\n> If all of a player's Strongholds are destroyed the player loses.\n> Strongholds can recruit villagers for 75 gold each so long as your current popluation is within your popluation cap.\n> Strongholds can increase your tech level if you have enough gold.\n> Strongholds can be built by villagers starting at Tech Level 2."
+    codex_rules_strongholds_text: "> Strongholds take half damage from all units.\n> If one of a player's Strongholds are destroyed the player loses.\n> Strongholds can recruit villagers for 75 gold each so long as your current population is within your population cap.\n> Strongholds can increase your tech level if you have enough gold.\n> Strongholds can be built by villagers starting at Tech Level 2."
 
 
 ...
